@@ -7,7 +7,7 @@ function __construct()
 {
 	parent::__construct();
 	$this->load->model('Welcomemodel','model');
-	if(!$this->session->userdata('topchoiceuserlogin2020'))
+	if(!$this->session->userdata('topchoiceuser2020'))
 	{
 		return redirect('Welcome/index');
 	}
@@ -267,7 +267,7 @@ public function instcomplain()
 {
   $data=$this->input->post();
   $data['message_type']='complain';
-  $data['userid']=$this->session->userdata('topchoiceuserlogin2020');
+  $data['userid']=$this->session->userdata('topchoiceuser2020');
   $this->model->instcomplain($data);
   $this->session->set_flashdata('success','Conplain Send Successfully');
   return redirect('Welcomelogin/sendacomplain');  
@@ -284,7 +284,7 @@ public function bvhistroy()
 }
 public function redeembv($bv)
 {
-  $data['your_sponsor_id']=$this->session->userdata('topchoiceuserlogin2020');
+  $data['your_sponsor_id']=$this->session->userdata('topchoiceuser2020');
   $data['bv']=$bv;
   $data['status']='0';
   $this->model->redeembv($data);
@@ -293,8 +293,36 @@ public function redeembv($bv)
 }
 public function payoutbv()
 {
- $data['payoutbv']=$this->model->fetchpayoutbv();
- $this->load->view('payoutbv',$data);
+  $fromdate=$this->input->post('fromdate');
+  $todate=$this->input->post('todate');
+  $data['status']=1;
+  $status=1;
+  if($fromdate && $todate)
+  {
+    $data['payoutbv']=$this->model->fetchpayoutbvbydate($fromdate,$todate,$status);
+  }
+  else
+  {
+    $data['payoutbv']=$this->model->fetchpayoutbv();
+  }
+  $this->load->view('payoutbv',$data);
+}
+
+public function payoutbvreject()
+{
+  $data['status']=2;
+  $status=2;
+  $fromdate=$this->input->post('fromdate');
+  $todate=$this->input->post('todate');
+  if($fromdate && $todate)
+  {
+    $data['payoutbv']=$this->model->fetchpayoutbvbydate($fromdate,$todate,$status);
+  }
+  else
+  {
+    $data['payoutbv']=$this->model->fetchpayoutbvreject();
+  }
+  $this->load->view('payoutbv',$data);
 }
 
 }

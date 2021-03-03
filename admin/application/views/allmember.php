@@ -20,6 +20,22 @@
 
   <!-- Custom styles for this page -->
   <link href="<?= base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+<style>
+  .dt-button
+  {
+    padding:10px;
+    margin:10px;
+    color:#fff;
+    background:#000;
+    border-radius:16px;
+  }
+  .dt-button:hover
+  {
+    color:#fff;
+    text-decoration:none;
+  }
+</style>
 
 </head>
 
@@ -90,7 +106,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="allmemberstable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>S No.</th>
@@ -99,6 +115,8 @@
                       <th>Name</th>
                       <th>Sponsor Id</th>
                       <th>Mobile</th>
+                      <th>Balance</th>
+                      <th>BV</th>
                       <th>Package</th>
                       <th>Status</th>
                       <th>Joining Date</th>
@@ -113,6 +131,8 @@
                       <th>Name</th>
                       <th>Sponsor Id</th>
                       <th>Mobile</th>
+                      <th>Balance</th>
+                      <th>BV</th>
                       <th>Package</th>
                       <th>Status</th>
                       <th>Joining Date</th>
@@ -130,26 +150,31 @@
                       <td><?= $i;?></td>
                       <td>
 
-                      <a href="#" data-toggle="modal" data-target="#subdistributor<?= $key->your_sponsor_id;?>"><?= $key->your_sponsor_id;?></a>
+                        <a id="demo<?= $i?>" class="text-decoration-none" href="#animatedModal<?= $i?>"><?= $key->your_sponsor_id;?></a>
 
+    <!--DEMO01-->
+    <div id="animatedModal<?= $i?>">
+        <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+        <div class="close-animatedModal<?= $i?>"> 
+            <center> <img class="m-3" src="https://joaopereirawd.github.io/animatedModal.js/img/closebt.svg" alt="Close" style="cursor:pointer;"> </center>
+        </div>
+            
+        <div class="modal-content" style="background:#3ABEB9;border:none;">
 
-<!-- Modal -->
-<div class="modal fade" id="subdistributor<?= $key->your_sponsor_id;?>" tabindex="-1" aria-labelledby="subdistributorLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable<?= $key->your_sponsor_id;?>" width="100%" cellspacing="0">
+                 <div class="container">
+                   <table class="table table-bordered text-center bg-white" id="subids<?= $i?>" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>S No.</th>
                       <th>Sub Distributor Id</th>
+                      <th>Name</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>S No.</th>
                       <th>Sub Distributor Id</th>
+                      <th>Name</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -167,6 +192,7 @@
                     <tr>
                       <td><?= $k;?></td>
                       <td><?= $fetchsubdistributor->your_sponsor_id?></td>
+                      <td><?= $fetchsubdistributor->name?></td>
                     </tr>
               <?php
               $k++;
@@ -175,20 +201,19 @@
 
                   </tbody>
                 </table>
-              </div>
-      </div>
-      <div class="modal-footer" style="display: block;text-align: center;">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+                 </div>
+
+        </div>
     </div>
-  </div>
-</div>
+
 
                       </td>
                       <td><?= $key->password?></td>
                       <td><?= $key->name;?></td>
                       <td><?= $key->under_sponsor_id;?></td>
                       <td><?= $key->mobile;?></td>
+                      <td><?= $key->balance;?></td>
+                      <td><?= $key->bv;?></td>
                       <td><?= $key->package;?></td>
                       <td>
                       	<?php
@@ -257,21 +282,56 @@
 
   <!-- Page level custom scripts -->
   <script src="<?= base_url()?>assets/js/demo/datatables-demo.js"></script>
-                    
-  <?php
-      $i=1;
-       foreach ($allmembers as $key) {
-   ?>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+<script src="https://joaopereirawd.github.io/animatedModal.js/js/animatedModal.min.js"></script>
+<?php
+$i=1;
+ foreach ($allmembers as $key) {
+?>
 
 <script>
-  $(document).ready( function () {
-    $('#dataTable<?= $key->your_sponsor_id;?>').DataTable();
+  $("#demo<?= $i?>").animatedModal(
+    {
+      animatedIn:'fadeInRightBig',
+      animationDuration:'1s',
+    });
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#subids<?= $i?>').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
 } );
 </script>
 
-<?php
-}
-?>
+
+<?php $i++; }?>
+
+<script>
+$(document).ready(function() {
+    $('#allmemberstable').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
+} );
+</script>
+
+
 </body>
 
 </html>

@@ -231,5 +231,25 @@ public function bvredeemreject($id)
   $this->session->set_flashdata('success','Redeem Rejected'); 
   return redirect('Welcomelogin/bvredeem');
 }
+public function payoutreport()
+{
+  $userid=$this->input->post('userid');
+  $fromdate=$this->input->post('fromdate');
+  $todate=$this->input->post('todate');
+  if($userid)
+  {
+    $data['payoutreport']=$this->model->payoutreportbyid($userid);
+    $data['page']="byid";
+  }
+  elseif($fromdate && $todate) {
+     $data['payoutreport']=$this->model->payoutreportbydate($fromdate,$todate);
+    $data['page']="bydate";
+  }
+  else
+  {
+     $data['page']='options';
+  }
+  $this->load->view('payoutreport',$data); 
+}
 
 }

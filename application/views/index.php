@@ -119,6 +119,106 @@
 		</div>
 	</section>
 
+<style>
+	.pro
+	{
+		box-shadow:0px 16px 32px rgb(0 0 0 / 50%);
+		background-color: rgba(64, 63, 62, 0.2);
+		border-radius:32px;
+		backdrop-filter: blur(37px);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		overflow:hidden;
+		transition: 1s;
+
+	}
+	.addcartbutton 
+	{
+       box-shadow:0px 15px 35px rgba(0,0,0,0.2)!important;
+       border-top:1px solid rgba(0,0,0,0.2);
+       border-bottom:1px solid rgba(0,0,0,0.2);
+       position:relative;
+       transition:1s;
+	}
+	.addcartbuttonicon 
+	{
+		padding:8px;
+		box-shadow:0px 15px 35px rgba(0,0,0,0.5);
+		border-radius:50%;
+	}
+
+	.productsname::before
+	{
+	    content: '';
+	    position:absolute;
+		top:0; 
+		left:0;
+		width:0%;
+		height:100%;
+		background:rgba(196, 67, 34,0.2);
+		transition:2s;
+	}
+	.productsvalue::before
+	{
+	    content: '';
+	    position:absolute;
+		top:0; 
+		left:0;
+		width:0%;
+		height:100%;
+		background:rgba(13, 49, 194,0.2);
+		transition:5s;
+	}
+	.productsname
+	{
+      /*background-color:#C44322;*/
+      background:rgba(255,255,255,0.2);
+      position:relative;
+      transition: 1s;
+	}
+	
+	.productsvalue
+	{
+      /*background-color:#0D31C2;*/
+      position:relative;
+      background:rgba(0,0,0,0.2);
+      transition: 1s;
+      
+   	}
+   	.proimg
+   	{
+   		transition:1s;
+   	}
+	.pro:hover .productsname
+	{
+		background-color:#C44322;
+	}
+	.pro:hover .productsvalue
+	{
+		background-color:#0D31C2;
+	}
+	.pro:hover .addcartbutton
+	{
+	  letter-spacing:4px;
+	}
+	.pro:hover .proimg
+	{
+		transform:scale(1.1);
+	}
+	.pro:hover .addcartbutton::before
+	{
+		transform:skew(45deg) translateX(260%);
+	}
+	.pro:hover .productsname::before
+	{
+		width:100%;
+	}
+	.pro:hover .productsvalue::before
+	{
+		width:100%;
+	}
+
+</style>
+
 	<section class="ftco-section ftco-no-pb ftco-no-pt" style="background:#ececec;padding-bottom:60px!important;">
 		<div class="container-fluid">
 			<div class="row no-gutters justify-content-center pb-5 mb-3">
@@ -133,10 +233,10 @@
                    foreach ($products as $products) {
             	?>
             	<div class="col-md-3">
-            		<div class="pro" style="box-shadow:2px 2px 5px 2px rgba(206,15,61,1);">
-            			<img src="<?= base_url()?>uploads/products/<?= $products->product_image?>" alt="products" style="width:100%;">
-            			<p class="text-center" style="margin-bottom:0;"><?= $products->product_name ?></p>
-            			<p class="text-center" style="margin:0;"><?= $products->product_price ?>  &#8377;</p>
+            		<div class="pro mb-3">
+            			<img class="proimg" src="<?= base_url()?>uploads/products/<?= $products->product_image?>" alt="products" style="width:100%;">
+            			<p class="text-center productsname text-uppercase text-white text-weight-bold p-2 mb-0"><?= $products->product_name ?></p>
+            			<p class="text-center productsvalue text-uppercase text-white text-weight-bold p-2 mb-2"><?= $products->product_price ?>  &#8377;</p>
 
             		    <?php
                           if($this->session->userdata('topchoiceuser2020')) { ?>
@@ -153,11 +253,11 @@
                                 <?php 
                                    if ($checkcartmain!=0) {
                                 ?>
-            		    	    <button class="btn" style="border:1px solid rgba(206,15,61,1);cursor:not-allowed;color:grey;">Add Cart</button>
+            		    	    <button class="btn addcartbutton" style="cursor:not-allowed;color:grey;"> <i class="fas fa-shopping-bag addcartbuttonicon"></i> Added in Cart</button>
                                 <?php }
                                   else {
                                 ?>
-            		    	    <button class="btn addcartproduct" data-product-id="<?= $products->id ?>" style="border:1px solid rgba(206,15,61,1);">Add Cart</button>
+            		    	    <button class="btn addcartproduct addcartbutton" data-product-id="<?= $products->id ?>"><i class="fas fa-cart-plus addcartbuttonicon"></i> Add Cart</button>
             		    	    <?php
             		    	}
             		    	?>
@@ -166,7 +266,7 @@
                            else
                            {
             		     ?>
-            		     <a href="<?= base_url('login')?>"> <center> <button class="btn" style="border:1px solid rgba(206,15,61,1);">Add Cart</button> </center> </a>
+            		     <a href="<?= base_url('login')?>"> <center> <button class="btn addcartbutton"> <i class="fas fa-cart-plus addcartbuttonicon"></i> Add Cart</button> </center> </a>
             	      	<?php } ?>
             	      	<br>
             		</div>

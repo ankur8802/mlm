@@ -87,7 +87,10 @@
         <div id="bvhistroy" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url('Welcomelogin/bvhistroy')?>">B V History</a>  
-            <a class="collapse-item" href="<?= base_url('Welcomelogin/payoutbv')?>">Payout Report</a>            
+            <a class="collapse-item" href="<?= base_url('Welcomelogin/payoutbv')?>">Payout Report</a>   
+            <a class="collapse-item" href="<?= base_url('Welcomelogin/payoutbvreject')?>">Payout Rejected</a>   
+
+                     
           </div>
         </div>
       </li>

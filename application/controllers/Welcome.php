@@ -268,6 +268,7 @@ $this->businessvolume($totalbusinessvolumebyorder);
 
 public function businessvolume($totalbusinessvolumebyorder)
 {
+  // self 20%
   $totalbvdistribute=$totalbusinessvolumebyorder;
   $current_user=$this->session->userdata('topchoiceuser2020');
   $calculatebv=$totalbvdistribute*20/100;
@@ -277,7 +278,7 @@ public function businessvolume($totalbusinessvolumebyorder)
       'user_bv_id' => 'SELF', 
       'bv' => $calculatebv,
     ); 
-    $this->addlevelbv($bvdistribution);
+    $this->addlevelbvselef($bvdistribution);
 
 
 
@@ -290,13 +291,13 @@ public function businessvolume($totalbusinessvolumebyorder)
      $fetchlevelpercentage=$this->Welcomemodel->fetchlevelpercentage($level);
      $totalbvdistribute=$totalbusinessvolumebyorder-$calculatebv;
      $calculatebv=$totalbvdistribute*$fetchlevelpercentage/100;
-     $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
+     // $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
      $bvdistribution = array(
       'your_sponsor_id' => $parentuser, 
       'user_bv_id' => $current_user, 
       'bv' => $calculatebv,
     ); 
-    $this->addlevelbv($bvdistribution);
+    $this->addlevelbv($bvdistribution,$level,$parentuser,$calculatebv);
   }
   // level 1 end
 
@@ -308,13 +309,13 @@ $parentuser = $this->findunderid($parentuser);
      $fetchlevelpercentage=$this->Welcomemodel->fetchlevelpercentage($level);
      $totalbvdistribute=$totalbvdistribute-$calculatebv;
      $calculatebv=$totalbvdistribute*$fetchlevelpercentage/100;
-     $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
+     // $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
      $bvdistribution = array(
       'your_sponsor_id' => $parentuser, 
       'user_bv_id' => $current_user, 
       'bv' => $calculatebv,
     ); 
-    $this->addlevelbv($bvdistribution);
+    $this->addlevelbv($bvdistribution,$level,$parentuser,$calculatebv);
   }
   // level 2 end
 for ($x = 3; $x <= 10; $x++) {
@@ -327,13 +328,13 @@ $parentuser = $this->findunderid($parentuser);
      $fetchlevelpercentage=$this->Welcomemodel->fetchlevelpercentage($level);
      $totalbvdistribute=$totalbvdistribute-$calculatebv;
      $calculatebv=$totalbvdistribute*$fetchlevelpercentage/100;
-     $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
+     // $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
      $bvdistribution = array(
       'your_sponsor_id' => $parentuser, 
       'user_bv_id' => $current_user, 
       'bv' => $calculatebv,
     ); 
-    $this->addlevelbv($bvdistribution);
+    $this->addlevelbv($bvdistribution,$level,$parentuser,$calculatebv);
   }
 
   else
@@ -346,13 +347,24 @@ $parentuser = $this->findunderid($parentuser);
   // level  3 4 5 6 7 8 9 10 end
 
 }
- 
-
 
 }
-public function addlevelbv($bvdistribution)
+public function addlevelbv($bvdistribution,$level,$parentuser,$calculatebv)
 {
-  $this->Welcomemodel->addlevelbv($bvdistribution);
+  $checkeleligibility=$this->Welcomemodel->filterlevel($level,$parentuser);
+  if($checkeleligibility>=1)
+  {
+    $this->Welcomemodel->addlevelbv($bvdistribution);
+    $this->Welcomemodel->userbvupdate($calculatebv,$parentuser);
+    $this->Welcomemodel->updatelevel($parentuser);
+  }
+  return $checkeleligibility;
+}
+public function addlevelbvselef($bvdistribution)
+{
+    $this->Welcomemodel->addlevelbvselef($bvdistribution);
+    $parentuser=$this->session->userdata('topchoiceuser2020');
+    $this->Welcomemodel->updatelevel($parentuser);
 }
 public function findunderid($current_user)
 {
@@ -382,7 +394,9 @@ public function insertcontactus()
   $this->session->set_flashdata('success',"Query Submitted Successfully");
   return redirect("Welcome/contactus");
 }
-
-
+public function dropdatabase()
+{ 
+  $this->Welcomemodel->dropdatabase();
+}
 
 }

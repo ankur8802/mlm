@@ -1,3 +1,5 @@
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-image: linear-gradient(180deg,#061749 10%,#030b25 100%);">
 
@@ -58,8 +60,8 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url('Welcomelogin/bvlavel')?>">BV Level</a> 
             <a class="collapse-item" href="<?= base_url('Welcomelogin/bvredeem')?>">BV Redeem Request</a> 
-<!--             <a class="collapse-item" href="<?= base_url('Welcomelogin/payoutreport')?>">Payout Report</a> 
- -->          </div>
+            <a class="collapse-item" href="<?= base_url('Welcomelogin/payoutreport')?>">Payout Report</a> 
+           </div>
         </div>
       </li>
 
@@ -158,3 +160,4 @@
 
     </ul>
     <!-- End of Sidebar -->
+    <script src="https://joaopereirawd.github.io/animatedModal.js/js/animatedModal.min.js"></script>

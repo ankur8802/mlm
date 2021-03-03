@@ -90,9 +90,9 @@
                 <input type="number" min="0" class="form-control" name="package_amount" placeholder="Enter Package Ammount..." required>
               </div>
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <input type="number" min="0" class="form-control" name="package_bv" placeholder="Enter Package BV..." required>
-              </div>
+              </div> -->
 
               <div class="col-md-12 text-center">
                 <button type="sumbit" class="btn btn-primary" style="margin-top:20px;">Submit</button>
@@ -112,7 +112,7 @@
                     <tr>
                       <th>S No.</th>
                       <th>Package</th>
-                      <th>BV</th>
+                      <!-- <th>BV</th> -->
                       <th>Date</th>
                       <th>Action</th>
                     </tr>
@@ -121,7 +121,7 @@
                     <tr>
                       <th>S No.</th>
                       <th>Package</th>
-                      <th>BV</th>
+                     <!--  <th>BV</th> -->
                       <th>Date</th>
                       <th>Action</th>
                     </tr>
@@ -135,7 +135,7 @@
                    <tr>
                    	   <td><?= $i;?></td>
                    	   <td><?= $key->package_amount;?></td>
-                       <td><?= $key->package_bv;?></td>
+                       <!-- <td><?= $key->package_bv;?></td> -->
                    	   <td><?= $key->date;?></td>
                    	   <td>
                    	   	   <a href="<?= base_url('Welcomelogin/packagedetele')?>/<?= $key->id;?>"> <button class="btn btn-success">Delete</button> </a>

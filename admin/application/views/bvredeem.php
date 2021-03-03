@@ -21,6 +21,22 @@
   <!-- Custom styles for this page -->
   <link href="<?= base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+<style>
+  .dt-button
+  {
+    padding:10px;
+    margin:10px;
+    color:#fff;
+    background:#000;
+    border-radius:16px;
+  }
+  .dt-button:hover
+  {
+    color:#fff;
+    text-decoration:none;
+  }
+</style>
+
 </head>
 
 <body id="page-top">
@@ -90,7 +106,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered text-center" id="bvredeem" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>S No.</th>
@@ -98,6 +114,7 @@
                       <th>B V </th>
                       <th>Date</th>
                       <th>Admin Approved/Reject Time</th>
+                      <th>Bank Detail</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -108,6 +125,7 @@
                       <th>B V </th>
                       <th>Date</th>
                       <th>Admin Approved/Reject Time</th>
+                      <th>Bank Detail</th>
                       <th>Action</th>
                     </tr>
                   </tfoot>
@@ -123,6 +141,64 @@
                    	   <td><?= $key->bv ;?></td>
                    	   <td><?= $key->date;?></td>
                        <td><?= $key->admintime;?></td>
+                       <td> <button class="btn btn-info" data-toggle="modal" data-target="#bankdetail">View</button>
+<!-- Modal -->
+<div class="modal fade" id="bankdetail" tabindex="-1" aria-labelledby="subdistributorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+         
+         <?php
+             $output=$this->db->query("select * from user_bank_detail where userid='$key->your_sponsor_id'");
+             $result=$output->row();
+         ?>
+
+         <?php
+           if(!empty($result))
+           {
+         ?>
+
+            <div class="row">
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-dark m-0 w-100 text-white p-2 m-1">Account Holder Name</p>
+              </div>
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-white m-0 w-100 text-dark p-2 m-1"> <?= $result->accountholdername?> </p>
+              </div>
+
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-dark m-0 w-100 text-white p-2 m-1">Bank Name</p>
+              </div>
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-white m-0 w-100 text-dark p-2 m-1"> <?= $result->bankname?> </p>
+              </div>
+
+            <div class="col-md-6 p-0 m-0">
+                <p class="bg-dark m-0 w-100 text-white p-2 m-1">Account no.</p>
+              </div>
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-white m-0 w-100 text-dark p-2 m-1"><?= $result->accountno?></p>
+              </div>
+
+            <div class="col-md-6 p-0 m-0">
+                <p class="bg-dark m-0 w-100 text-white p-2 m-1">IFSC Code</p>
+              </div>
+              <div class="col-md-6 p-0 m-0">
+                <p class="bg-white m-0 w-100 text-dark p-2 m-1"><?= $result->ifsc?></p>
+              </div>
+            </div>
+
+       <?php } else {?>
+        <P>User Not Upload Bank Detail </P>
+      <?php }?>
+      </div>
+      <div class="modal-footer" style="display: block;text-align: center;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+                        </td>
                    	   <td>
                            <?php
                                if($key->status==0)
@@ -200,6 +276,26 @@
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#bvredeem').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
+} );
+</script>
 
 <?php
 if($this->session->flashdata('success'))

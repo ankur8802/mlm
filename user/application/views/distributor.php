@@ -20,6 +20,23 @@
 
   <!-- Custom styles for this page -->
   <link href="<?= base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+ 
+ <style>
+  .dt-button
+  {
+    padding:10px;
+    margin:10px;
+    color:#fff;
+    background:#000;
+    border-radius:16px;
+  }
+  .dt-button:hover
+  {
+    color:#fff;
+    text-decoration:none;
+  }
+</style>
 
 </head>
 
@@ -59,7 +76,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                  <?= $this->session->userdata('topchoiceuserlogin2020');?>
+                  <?= $this->session->userdata('topchoiceuser2020');?>
                 </span>
 <!--                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
  -->              </a>
@@ -90,7 +107,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="distri" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>S No.</th>
@@ -124,7 +141,66 @@
 
                     <tr>
                       <td><?= $i;?></td>
-                      <td><?= $key->your_sponsor_id;?></td>
+                      <td>
+                        <a id="demo<?= $i?>" class='text-decoration-none' href="#animatedModal<?= $i?>"><?= $key->your_sponsor_id;?></a>
+
+    <!--DEMO01-->
+    <div id="animatedModal<?= $i?>">
+        <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+        <div class="close-animatedModal<?= $i?>"> 
+            <center> <img class="m-3" src="https://joaopereirawd.github.io/animatedModal.js/img/closebt.svg" alt="Close" style="cursor:pointer;"> </center>
+        </div>
+            
+        <div class="modal-content" style="background:#3ABEB9;border:none;">
+
+                 <div class="container">
+                   <table class="table table-bordered text-center bg-white" id="subids<?= $i?>" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>S No.</th>
+                      <th>Sub Distributor Id</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>S No.</th>
+                      <th>Sub Distributor Id</th>
+                      <th>Name</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+            <?php 
+           $fetchsubdist=$this->db->select()
+                                  ->from('user')
+                                  ->where('under_sponsor_id',$key->your_sponsor_id)
+                                  ->get();
+                            $fetchsubdistributor=$fetchsubdist->result();
+        ?> 
+              <?php
+                $k=1;
+                foreach ($fetchsubdistributor as $fetchsubdistributor) {
+              ?>
+                    <tr>
+                      <td><?= $k;?></td>
+                      <td><?= $fetchsubdistributor->your_sponsor_id?></td>
+                      <td><?= $fetchsubdistributor->name?></td>
+                    </tr>
+              <?php
+              $k++;
+               }
+              ?>
+
+                  </tbody>
+                </table>
+                 </div>
+
+        </div>
+    </div>
+
+
+
+                      </td>
                       <td><?= $key->name;?></td>
                       <td><?= $key->mobile;?></td>
                       <td><?= $key->package;?></td>
@@ -195,7 +271,55 @@
 
   <!-- Page level custom scripts -->
   <script src="<?= base_url()?>assets/js/demo/datatables-demo.js"></script>
+<script src="https://joaopereirawd.github.io/animatedModal.js/js/animatedModal.min.js"></script>
 
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+<script src="https://joaopereirawd.github.io/animatedModal.js/js/animatedModal.min.js"></script>
+
+<?php
+$i=1;
+ foreach ($distributor as $key) {
+?>
+
+<script>
+  $("#demo<?= $i?>").animatedModal(
+    {
+      animatedIn:'fadeInRightBig',
+      animationDuration:'1s',
+    });
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#subids<?= $i?>').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
+} );
+</script>
+
+
+<?php $i++; }?>
+
+<script>
+$(document).ready(function() {
+    $('#distri').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
+} );
+</script>
 </body>
 
 </html>

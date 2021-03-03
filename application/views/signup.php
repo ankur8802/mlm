@@ -22,6 +22,46 @@
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/flaticon.css">
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.6/flatpickr.min.css">
+<style>
+
+ input:valid{
+     box-shadow: 0px 0px 5px 1px green!important;
+ }
+ input:invalid{
+     box-shadow: 0px 0px 5px 1px red!important;
+ }
+
+.hideShowPassword-toggle {
+  background-color: transparent;
+  background-image: url('http://cloudfour.github.io/hideShowPassword/images/wink.png'); /* fallback */
+  background-image: url('http://cloudfour.github.io/hideShowPassword/images/wink.svg'), none;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  border: 2px solid transparent;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-size: 100%;
+  height: 44px;
+  margin: 0;
+  max-height: 100%;
+  padding: 0;
+  overflow: 'hidden';
+  text-indent: -999em;
+  width: 46px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.hideShowPassword-toggle-hide {
+  background-position: -44px center;
+}
+
+.hideShowPassword-toggle:hover,
+.hideShowPassword-toggle:focus {
+  border-color: #0088cc;
+  outline: transparent;
+}
+</style>
 </head>
 <body>
 
@@ -119,7 +159,7 @@
 						</div>
 
 						<div class="col-md-6" style="margin-top:10px;">
-							<input type="password" name="password" class="form-control" placeholder="Password" required>
+							<input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
 						</div>
 
 
@@ -189,6 +229,11 @@
 		<script src="<?= base_url()?>assets/js/google-map.js"></script>
 		<script src="<?= base_url()?>assets/js/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.6/flatpickr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hideshowpassword/2.2.0/hideShowPassword.min.js"></script>
+
+<script>
+$('#password').hidePassword(true);
+</script>
 <script type="text/javascript">
 	$('.dob').flatpickr(
           {

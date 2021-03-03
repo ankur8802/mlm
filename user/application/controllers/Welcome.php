@@ -10,7 +10,7 @@ function __construct()
 }
 public function index()
 {
-if($this->session->userdata('topchoiceuserlogin2020'))
+if($this->session->userdata('topchoiceuser2020'))
 {
 	return redirect('Welcomelogin/index');
 }
@@ -24,7 +24,7 @@ public function loginaccount()
   $checklogindetail=$this->model->checklogindetail($userid,$password);
   if($checklogindetail>=1)
   {
-  	  $this->session->set_userdata('topchoiceuserlogin2020',$userid);
+  	  $this->session->set_userdata('topchoiceuser2020',$userid);
       return redirect('Welcomelogin/index');
   }
   else
@@ -37,7 +37,7 @@ public function loginaccount()
 }
 public function logout()
 {
-  $this->session->unset_userdata('topchoiceuserlogin2020');
+  $this->session->unset_userdata('topchoiceuser2020');
   return redirect();
 }
 public function loginbyuser($userid)

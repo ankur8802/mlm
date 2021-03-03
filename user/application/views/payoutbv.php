@@ -11,6 +11,24 @@
 
   <title> Payout BV </title>
 
+<style>
+  .dt-button
+  {
+    padding:10px;
+    margin:10px;
+    color:#fff;
+    background:#000;
+    border-radius:16px;
+  }
+  .dt-button:hover
+  {
+    color:#fff;
+    text-decoration:none;
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <!-- Custom fonts for this template -->
   <link href="<?= base_url()?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -59,7 +77,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                  <?= $this->session->userdata('topchoiceuserlogin2020');?>
+                  <?= $this->session->userdata('topchoiceuser2020');?>
                 </span>
 <!--                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
  -->              </a>
@@ -82,7 +100,7 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800"> Payout BV </h1>
+          <h1 class="h3 mb-2 text-gray-800"> Payout  </h1>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -90,34 +108,90 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table text-center table-bordered" id="dataTable" width="100%" cellspacing="0">
+                 <div class="row">
+                   <div class="col-md-3"></div>
+                   <div class="col-md-6">
+                    <form action="<?= base_url('Welcomelogin/payoutbv')?>" method="post">
+                       <div class="row">
+
+                       <div class="col-md-4">
+                         <input type="text" class="form-control searchdate" name="fromdate" placeholder="From Date" readonly required>
+                       </div>
+                       <div class="col-md-4">
+                         <input type="text" class="form-control searchdate" name="todate" placeholder="To Date" readonly required>
+                       </div>
+                       <div class="col-md-4">
+                         <button class="btn btn-primary">Search</button>
+                       </div>
+
+                     </div>
+                    </form>
+                   </div>
+                 </div>
+                <table class="table text-center table-bordered" id="payout" width="100%" cellspacing="0">
                   <thead>
-                    <tr>
+
+
+                    <tr class="bg-dark text-white">
                       <th>S No.</th>
                       <th>B V  </th>
-                      <th> Admin Approved/Reject Time </th>
+                      <th> <?php 
+                               if($status==1)
+                             {
+                               echo "Admin Approved";
+                             }
+                             else
+                             {
+                              echo "Reject Time ";
+                             }
+                           ?>
+                         
+                       </th>
                     </tr>
                   </thead>
                   <tfoot>
-                    <tr>
+                    <tr class="bg-dark text-white">
                       <th>S No.</th>
                       <th>B V  </th>
-                      <th> Admin Approved </th>
+                      <th><?php 
+                               if($status==1)
+                             {
+                               echo "Admin Approved";
+                             }
+                             else
+                             {
+                              echo "Reject Time ";
+                             }
+                           ?> </th>
                     </tr>
                   </tfoot>
                   <tbody>
 
                     <?php
                        $i=1;
+                       $total=0;
                        foreach ($payoutbv as $key ) {
                     ?>
-                     <tr>
+                     <tr class=" <?php if($status==1){ echo 'bg-success';} elseif($status==2){ echo 'bg-danger';}?> text-white">
                         <td><?= $i;?></td>
-                        <td><?= $key->bv?></td>
+                        <td><?php
+                             if($status==1)
+                             {
+                               echo "+";
+                             }
+                             echo $key->bv;
+                             $total=$key->bv+$total;
+                          ?></td>
                         <td><?= $key->admintime?></td>
                      </tr>
 
                     <?php $i++; }?>
+
+                    <tr class="bg-primary text-white">
+                      <td>Total B V </td>
+                      <td> <?= $total;?> </td>
+                      <td> </td>
+                    </tr>
 
                    
 
@@ -171,6 +245,31 @@
 
   <!-- Page level custom scripts -->
   <script src="<?= base_url()?>assets/js/demo/datatables-demo.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  $('.searchdate').flatpickr();
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#payout').DataTable({
+      dom: 'lBfrtip',
+   buttons: [
+    'excel', 'csv', 'pdf'
+   ],
+   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    });
+} );
+</script>
 
 </body>
 

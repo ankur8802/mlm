@@ -21,6 +21,22 @@
   <!-- Custom styles for this page -->
   <link href="<?= base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+<style>
+  .dt-button
+  {
+    padding:10px;
+    margin:10px;
+    color:#fff;
+    background:#000;
+    border-radius:16px;
+  }
+  .dt-button:hover
+  {
+    color:#fff;
+    text-decoration:none;
+  }
+</style>
+
 </head>
 
 <body id="page-top">
@@ -91,7 +107,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered text-center" id="bvlevel" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Level</th>
@@ -177,6 +193,13 @@
 
   <!-- Page level custom scripts -->
   <script src="<?= base_url()?>assets/js/demo/datatables-demo.js"></script>
+
+
+<script>
+$(document).ready(function() {
+    $('#bvlevel').DataTable();
+} );
+</script>
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

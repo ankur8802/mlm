@@ -350,6 +350,18 @@ public function bvredeemreject($id)
 {
   date_default_timezone_set('Asia/Kolkata');      
   $date=date("Y/m/d h:i:sa");
-  $this->db->query("update bvredeem set status='2' , admintime='$date'  where id='$id'");
+  $this->db->query("update bvredeem set status='2' , admintime='$date' where id='$id'");
 }
+
+public function payoutreportbyid($userid)
+{
+ $output=$this->db->query("select * from bvredeem where your_sponsor_id='$userid' and status='1' order by id desc");
+  return $output->result(); 
+}
+public function payoutreportbydate($fromdate,$todate)
+{
+  $output=$this->db->query("select * from bvredeem  where( date between '$fromdate' and '$todate') AND ( status = '1')");
+   return $output->result();
+}
+
 }

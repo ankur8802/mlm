@@ -17,6 +17,8 @@
 
   <!-- Custom styles for this template-->
   <link href="<?= base_url()?>assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://madeas.github.io/box-shadows/css/box-shadows.min.css">
+  
 <script src="https://kit.fontawesome.com/e6726924f5.js" crossorigin="anonymous"></script>
 
 </head>
@@ -29,13 +31,13 @@
 <?php include('sidenav.php');?>
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column" style="background:linear-gradient(111.95647678511193deg, rgba(231, 244, 245,1) 5.533854166666667%,rgba(78, 240, 250,1) 96.67968749999999%);">
 
       <!-- Main Content -->
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="background-color:#061749!important;">
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -53,8 +55,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                  <?= $this->session->userdata('topchoiceuserlogin2020');?>
+                <span class="mr-2 d-none d-lg-inline text-white-600 small">
+                  <?= $this->session->userdata('topchoiceuser2020');?>
                 </span>
 <!--                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
  -->              </a>
@@ -86,6 +88,66 @@
 
 
 
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Welcome</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 text-uppercase">
+                       <?php
+                          $userid=$this->session->userdata('topchoiceuser2020');
+                         $output=$this->db->query("select * from user where your_sponsor_id='$userid'");
+                         $userdetail=$output->row();
+                          echo $userdetail->name;
+                        ?>
+                       </div>
+                       <div class="text-xs font-weight-bold mt-2 text-warning text-uppercase mb-1 ipaddress">Your Ip Address is<br> <i class="fas fa-globe-asia text-success"></i></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-4x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Your Joining Date</div>
+                      <div class="h5 mb-0 font-weight-bold text-success text-uppercase" style="font-size:15px;">
+                       <?php
+                          $userid=$this->session->userdata('topchoiceuser2020');
+                         $output=$this->db->query("select * from user where your_sponsor_id='$userid'");
+                         $userdetail=$output->row();
+                          echo $userdetail->joining_date;
+                        ?>
+                       </div>
+                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Your Activation Date</div>
+                      <div class="h5 mb-0 font-weight-bold text-success text-uppercase" style="font-size:15px;">
+                       <?php
+                          $userid=$this->session->userdata('topchoiceuser2020');
+                         $output=$this->db->query("select * from user where your_sponsor_id='$userid'");
+                         $userdetail=$output->row();
+                          echo $userdetail->activationdate;
+                        ?>
+                       </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clock fa-4x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
 
 
             <!-- Pending Requests Card Example -->
@@ -96,9 +158,15 @@
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Balance</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"> <?= $balance;?> </div>
+                      <?php 
+                         if ($balance>0) {
+                      ?>
+
+                      <p class="btn bShadow-4h bShadow-3h m-0 mt-2" style="background:linear-gradient(111.95647678511193deg, rgba(248, 198, 215,1) 5.533854166666667%,rgba(175, 233, 249,1) 96.67968749999999%);"><a href="<?= base_url("../")?>" class="text-dark font-weight-bold" style="text-decoration:none;" target="_blank"> Shop Now </a> </p>
+                    <?php } ?>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                      <i class="fas fa-rupee-sign fa-4x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -114,16 +182,16 @@
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">B V</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"> <?= $bv;?>  </div>
                       <?php
-                          $id=$this->session->userdata('topchoiceuserlogin2020');
+                          $id=$this->session->userdata('topchoiceuser2020');
                          $result=$this->db->query("select * from bvredeem where your_sponsor_id='$id' and status='0'");
                          $checkrq=$result->num_rows();
                          if ($bv>0 && $checkrq==0) {
                       ?>
-                      <p class="btn btn-info m-0"><a href="<?= base_url("Welcomelogin/redeembv/$bv")?>" class="text-white"> Request for Redeem B V </a> </p>
+                      <p class="btn bShadow-4h bShadow-3h m-0 mt-2" style="background:linear-gradient(111.95647678511193deg, rgba(248, 198, 215,1) 5.533854166666667%,rgba(175, 233, 249,1) 96.67968749999999%);"><a href="<?= base_url("Welcomelogin/redeembv/$bv")?>" class="text-dark font-weight-bold text-decoration-none "> Redeem B.V </a> </p>
                       <?php } ?>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                      <i class="fas fa-wallet fa-4x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -137,7 +205,12 @@
 
           </div>
 
-
+<style>
+  .no-gutters ul li a
+  {
+    text-decoration:none;
+  }
+</style>
            <div class="row">
               <div class="col-xl-6 col-md-6 mb-6">
               <div class="card border-left-warning shadow h-100 py-2">
@@ -210,7 +283,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+      <footer class="sticky-footer bg-white" style="position:fixed;bottom:0;width:100%;">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; Your Topchoicetechnologies.com 2020</span>
@@ -306,6 +379,12 @@ if($this->session->flashdata('warning'))
   })
 </script>
 
+<script>
+  $.getJSON("https://api.ipify.org/?format=json", function(e) {
+    var ipass=e.ip;
+     $('.ipaddress').append("<span class='text-success'>" + e.ip+ "</span>");
+});
+</script>
 </body>
 
 </html>
